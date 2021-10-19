@@ -2,12 +2,15 @@ package net.javaguides.restfulapitest.controller;
 
 
 import net.javaguides.restfulapitest.exception.ResourceNotFoundException;
+import net.javaguides.restfulapitest.model.Author;
 import net.javaguides.restfulapitest.model.Book;
 import net.javaguides.restfulapitest.repository.BookRepository;
+import net.javaguides.restfulapitest.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +19,10 @@ import java.util.Map;
 @RequestMapping("/api/v1/")
 public class BookController {
 
+
     @Autowired
     private BookRepository bookRepository;
+
 
     //get books
     @GetMapping("/books")
@@ -25,37 +30,52 @@ public class BookController {
     {
         return this.bookRepository.findAll();
     }
+
     //get book by id
     @GetMapping("/books/{isbn}")
-    public ResponseEntity<Book> getBookByID(@PathVariable(value = "ISBN") Long bookISBN)
+    public ResponseEntity<Book> getBookByID(@PathVariable(value = "isbn") Long bookISBN)
         throws ResourceNotFoundException {
         Book book = bookRepository.findById(bookISBN).orElseThrow(() -> new ResourceNotFoundException("Book not found for this ID ::" + bookISBN));
         return ResponseEntity.ok().body(book);
     }
 
-
-    //save book
-    @PostMapping("/books")
-    public Book createBook(@Valid @RequestBody Book book)
+    //get books by author id
+    @GetMapping("/books/authors/{authorID}")
+    public List<Book> getByAuthorId(@PathVariable Long authorID)
     {
-            return this.bookRepository.save(book);
+        List<Book> books = new ArrayList<>();
+        bookRepository.findByAuthorId(authorID).forEach(books::add);
+        return books;
     }
+
+    //post book
+    @PostMapping("/books")
+    public Book createBook(@RequestBody Book book)
+    {
+        return this.bookRepository.save(book);
+    }
+
     //update book
     @PutMapping("books/{isbn}")
-    public ResponseEntity<Book> updateBook (@PathVariable(value = "ISBN") Long bookISBN, @Valid @RequestBody Book bookDetails) throws ResourceNotFoundException {
+    public ResponseEntity<Book> updateBook (@PathVariable(value = "isbn") Long bookISBN, @Valid @RequestBody Book bookDetails) throws ResourceNotFoundException {
         Book book = bookRepository.findById(bookISBN).orElseThrow(() -> new ResourceNotFoundException("Book not found for this ID ::" + bookISBN));
 
+        book.setISBN(bookDetails.getISBN());
         book.setGenre(bookDetails.getGenre());
         book.setName((bookDetails.getName()));
         book.setPrice(bookDetails.getPrice());
-        book.setISBN(bookDetails.getISBN());
+        book.setDescription(bookDetails.getDescription());
+        book.setRating(bookDetails.getRating());
+        book.setCopies_sold(bookDetails.getCopies_sold());
+        book.setYear_published(bookDetails.getYear_published());
+
 
         return ResponseEntity.ok(this.bookRepository.save(book));
     }
 
     //delete book
     @DeleteMapping("books/{isbn}")
-    public Map<String, Boolean> deleteBook(@PathVariable(value = "ISBN") Long bookISBN) throws ResourceNotFoundException
+    public Map<String, Boolean> deleteBook(@PathVariable(value = "isbn") Long bookISBN) throws ResourceNotFoundException
     {
         Book book = bookRepository.findById(bookISBN).orElseThrow(() -> new ResourceNotFoundException("Book not found for this ID ::" + bookISBN));
 
