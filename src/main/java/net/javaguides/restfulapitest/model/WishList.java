@@ -15,9 +15,7 @@ public class WishList {
     @JoinColumn(nullable = false,name = "user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name ="book_id")
-    private Book book;
+
 
     public User getUser() {
         return user;

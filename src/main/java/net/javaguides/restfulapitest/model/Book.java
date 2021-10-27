@@ -15,11 +15,7 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;
-
-    @OneToOne(mappedBy = "book")
-    private WishList wishList;
-
-
+    
     @Column(name = "name")
     private String name;
 
