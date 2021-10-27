@@ -13,25 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BookService {
-    private BookRepository bookRepository;
+public interface BookService {
+    List<Book> findAll();
 
-    public List<BookDto> listBooks()
-    {
-        List<Book> books = bookRepository.findAll();
-        List<BookDto> bookDtos = new ArrayList<>();
-        for(Book book : books)
-        {
-            BookDto bookDto = getDtoFromBook(book);
-            bookDtos.add(bookDto);
-        }
-        return bookDtos;
-    }
-
-    public static BookDto getDtoFromBook(Book book)
-    {
-        BookDto bookDto = new BookDto(book);
-        return bookDto;
-    }
+    Book findOne(Long id);
+    List<Book> findByGenre(String genre);
+    List<Book> blurrySearch(String title);
 
 }
