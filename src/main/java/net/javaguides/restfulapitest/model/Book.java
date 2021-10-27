@@ -16,8 +16,8 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToMany(mappedBy = "book",fetch = FetchType.LAZY)
-    private List<WishList> wishlist;
+    @OneToOne(mappedBy = "book")
+    private WishList wishList;
 
 
     @Column(name = "name")
@@ -134,13 +134,6 @@ public class Book {
         return rating;
     }
 
-    public List<WishList> getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(List<WishList> wishlist) {
-        this.wishlist = wishlist;
-    }
 
     public void setRating(double rating) {
         this.rating = rating;

@@ -2,6 +2,7 @@ package net.javaguides.restfulapitest.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -36,6 +37,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<CreditCard> creditCards = new HashSet<CreditCard>(0);
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<WishList> wishList;
 
     public User() {
         super();

@@ -10,13 +10,14 @@ public class WishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id")
-    private Book book;
 
-    @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(nullable = false,name = "user_id")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name ="book_id")
+    private Book book;
 
     public User getUser() {
         return user;
@@ -31,11 +32,7 @@ public class WishList {
 
     }
 
-    public WishList(Book book,User user)
-    {
-        this.book = book;
 
-    }
     public long getId() {
         return id;
     }
@@ -43,17 +40,6 @@ public class WishList {
     public void setId(long id) {
         this.id = id;
     }
-
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-
 
 
 
