@@ -1,22 +1,40 @@
 package net.javaguides.restfulapitest.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "wishlist")
 public class WishList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "user_id")
+    private User user;
+
+
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false,name = "user_id")
-    private User user;
+    public WishList()
+    {
+
+    }
+    public WishList(User user, Book book)
+    {
+        this.user=user;
+        this.book=book;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public User getUser() {
         return user;
@@ -25,25 +43,6 @@ public class WishList {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public WishList()
-    {
-
-    }
-
-    public WishList(Book book,User user)
-    {
-        this.book = book;
-
-    }
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
 
     public Book getBook() {
         return book;
@@ -54,46 +53,4 @@ public class WishList {
     }
 
 
-
-
-
 }
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id",nullable = false)
-//    private User user;
-//
-//    @OneToOne
-//    private WishListInstance wishListInstance;
-//
-//    public WishList()
-//    {
-//        super();
-//    }
-//
-//    public WishList( User user) {
-//        super();
-//
-//        this.user = user;
-//    }
-//
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//}

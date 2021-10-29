@@ -2,10 +2,8 @@ package net.javaguides.restfulapitest.controller;
 
 
 import net.javaguides.restfulapitest.exception.ResourceNotFoundException;
-import net.javaguides.restfulapitest.model.Author;
 import net.javaguides.restfulapitest.model.Book;
 import net.javaguides.restfulapitest.repository.BookRepository;
-import net.javaguides.restfulapitest.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +26,7 @@ public class BookController {
     @GetMapping("/books")
     public List<Book> getAllBooks()
     {
-        return this.bookRepository.findAll();
+        return (List<Book>) this.bookRepository.findAll();
     }
 
     //get book by id

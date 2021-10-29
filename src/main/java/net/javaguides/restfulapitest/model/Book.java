@@ -1,5 +1,8 @@
 package net.javaguides.restfulapitest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,16 +12,16 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private long ISBN;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToMany(mappedBy = "book",fetch = FetchType.LAZY)
-    private List<WishList> wishlist;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "book")
+    private List<WishList> wishListList;
 
     @Column(name = "name")
     private String name;
@@ -30,6 +33,14 @@ public class Book {
     private double price;
     @Column(name = "publisher")
     private String publisher;
+
+    public List<WishList> getWishListList() {
+        return wishListList;
+    }
+
+    public void setWishListList(List<WishList> wishListList) {
+        this.wishListList = wishListList;
+    }
 
     @Column(name = "description")
     private String description;
@@ -134,13 +145,6 @@ public class Book {
         return rating;
     }
 
-    public List<WishList> getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(List<WishList> wishlist) {
-        this.wishlist = wishlist;
-    }
 
     public void setRating(double rating) {
         this.rating = rating;

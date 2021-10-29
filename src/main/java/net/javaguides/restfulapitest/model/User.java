@@ -1,7 +1,10 @@
 package net.javaguides.restfulapitest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -34,7 +37,9 @@ public class User {
     private String address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<CreditCard> creditCards = new HashSet<CreditCard>(0);
+
 
 
     public User() {

@@ -1,5 +1,4 @@
-package net.javaguides.restfulapitest.service;
-
+package net.javaguides.restfulapitest.service.impl;
 
 import net.javaguides.restfulapitest.model.WishList;
 import net.javaguides.restfulapitest.repository.WishListRepository;
@@ -11,17 +10,19 @@ import java.util.List;
 @Service
 @Transactional
 public class WishListService {
+
     private final WishListRepository wishListRepository;
 
     public WishListService(WishListRepository wishListRepository) {
         this.wishListRepository = wishListRepository;
     }
 
-    public void createWishList(WishList wishList)
-    {
+    public void createWishlist(WishList wishList) {
         wishListRepository.save(wishList);
     }
-    public List<WishList> readWishList(long userId) {
+
+    public List<WishList> readWishList(Long userId) {
         return wishListRepository.findAllByUserId(userId);
     }
 }
+
