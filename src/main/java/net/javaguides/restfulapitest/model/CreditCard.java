@@ -1,58 +1,70 @@
 package net.javaguides.restfulapitest.model;
 
-import javax.persistence.*;
+import net.javaguides.restfulapitest.model.User;
+import java.lang.Math;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cards")
 public class CreditCard {
 
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "card_id")
-    @Id
-    private long cardId;
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "card_id")
+@Id
+private long cardId; 
 
-    @Column(name = "card_number")
-    private String cardNumber;//will generate a 16 DIGIT sequence later
+@Column(name = "card_number")
+private String cardNumber;//will generate a 16 DIGIT sequence later
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private User user;
+@ManyToOne(fetch = FetchType.EAGER)
+@JoinColumn(name = "id")
+private User user;
 
-    public CreditCard() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public CreditCard() {
+	super();
+	// TODO Auto-generated constructor stub
+}
 
-    public CreditCard(long cardId, String cardNumber, User user) {
-        super();
-        this.cardId = cardId;
-        this.cardNumber = cardNumber;
-        this.user = user;
-    }
+public CreditCard(long cardId, String cardNumber, User user) {
+	super();
+	this.cardId = cardId;
+	this.cardNumber = cardNumber;
+	this.user = user;
+}
 
-    public long getCardId() {
-        return cardId;
-    }
+public long getCardId() {
+	return cardId;
+}
 
-    public void setCardId(long cardId) {
-        this.cardId = cardId;
-    }
+public void setCardId(long cardId) {
+	this.cardId = cardId;
+}
 
-    public String getCardNumber() {
-        return cardNumber;
-    }
+public String getCardNumber() {
+	return cardNumber;
+}
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
+public void setCardNumber(String cardNumber) {
+	this.cardNumber = cardNumber;
+}
 
-    public long getUser() {
-        return user.getId();
-    }
+public long getUser() {
+	return user.getId();
+}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+public void setUser(User user) {
+	this.user = user;
+}
 
 }
