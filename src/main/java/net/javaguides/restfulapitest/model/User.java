@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 /*
-
  */
 
 @Entity
@@ -35,6 +34,8 @@ public class User {
 
     @Column(name = "address")
     private String address;
+    @Column(unique = true)
+    private String wishlist_name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -49,11 +50,19 @@ public class User {
 
     public User(String username, String password, String name, String email, String address) {
         super();
-        this.username = username;
+        this.username = email;
         this.password = password;
         this.name = name;
         this.email = email;
         this.address = address;
+    }
+
+    public String getWishlist_name() {
+        return wishlist_name;
+    }
+
+    public void setWishlist_name(String wishlist_name) {
+        this.wishlist_name = wishlist_name;
     }
 
     public long getId() {
@@ -63,7 +72,7 @@ public class User {
         this.id = id;
     }
     public String getUsername() {
-        return username;
+        return email;
     }
     public void setUsername(String username) {
         this.email = username;
@@ -99,10 +108,6 @@ public class User {
     public void setCreditCards(Set<CreditCard> creditCards) {
         this.creditCards = creditCards;
     }
-
-
-
-
 
 
 
