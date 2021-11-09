@@ -49,7 +49,7 @@ public class User {
 
     public User(String username, String password, String name, String email, String address) {
         super();
-        this.username = username;
+        this.username = email;
         this.password = password;
         this.name = name;
         this.email = email;
@@ -63,7 +63,7 @@ public class User {
         this.id = id;
     }
     public String getUsername() {
-        return username;
+        return email;
     }
     public void setUsername(String username) {
         this.email = username;
