@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"book_id","user_id"})})
+
 public class WishList {
 
     @Id
@@ -18,21 +19,20 @@ public class WishList {
     @JsonIgnore
     private User user;
 
-//    @Column(unique = true,nullable = false)
-//    private String name;
-
+    @Column
+    private String name;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id",nullable = false)
     private Book book;
 
     public WishList()
     {
 
     }
-    public WishList(User user, Book book)
+    public WishList(User user, Book book,String name)
     {
-//        this.name=name;
+        this.name=name;
         this.user=user;
         this.book=book;
     }
@@ -61,11 +61,11 @@ public class WishList {
         this.book = book;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
