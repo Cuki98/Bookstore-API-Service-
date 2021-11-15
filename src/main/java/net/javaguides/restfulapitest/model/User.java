@@ -40,7 +40,8 @@ public class User {
     @JsonIgnore
     private Set<CreditCard> creditCards = new HashSet<CreditCard>(0);
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    private Set<Rating> ratings = new HashSet<Rating>(0);
 
     public User() {
         super();
@@ -99,11 +100,10 @@ public class User {
     public void setCreditCards(Set<CreditCard> creditCards) {
         this.creditCards = creditCards;
     }
-
-
-
-
-
-
-
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
 }
