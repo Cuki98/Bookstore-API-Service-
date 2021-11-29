@@ -1,38 +1,37 @@
 package net.javaguides.restfulapitest.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"book_id","user_id"})})
-
-public class WishList {
+@Table(name="shopping_cart")
+public class ShoppingCart {
 
     @Id
     @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     @JsonIgnore
     private User user;
 
-    @Column
-    private String name;
 
     @ManyToOne
     @JoinColumn(name = "book_id",nullable = false)
     private Book book;
 
-    public WishList()
+    public ShoppingCart()
     {
 
     }
-    public WishList(User user, Book book,String name)
+    public ShoppingCart(User user,Book book)
     {
-        this.name=name;
         this.user=user;
-        this.book=book;
+        this.book = book;
     }
 
     public Long getId() {
@@ -57,13 +56,5 @@ public class WishList {
 
     public void setBook(Book book) {
         this.book = book;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
