@@ -1,17 +1,28 @@
 package net.javaguides.restfulapitest.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
-
-import javax.persistence.*;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "books")
 
-public class Book {
+// E
+public class Book implements Comparable<Book>, Comparator<Book> {
 
     @Id
     @NotNull
@@ -33,6 +44,7 @@ public class Book {
 
     @Column(name = "price")
     private double price;
+
     @Column(name = "publisher")
     private String publisher;
 
@@ -75,6 +87,8 @@ public class Book {
         this.description = description;
         this.year_published = year_published;
         this.copies_sold = copies_sold;
+		// E
+		this.avgRating = 0.0;
     }
     public long getAuthor() {
         return author.getId();
@@ -154,5 +168,38 @@ public class Book {
         this.ratings = ratings;
     }
 
+	// E
+	// *Getter and Setter for the average rating
+	public Double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(Double avgRating) {
+		this.avgRating = avgRating;
+	}
+
+	// *Added author first and last name
+	public String getAuthorFirstName() {
+		return author.getFirst_name();
+	}
+
+	public String getAuthorLastName() {
+		return author.getLast_name();
+	}
+
+	// *compareTo to use for Collections
+	@Override
+	public int compareTo(Book book) {
+
+		return Integer.compare(book.copies_sold, this.copies_sold);
+
+	}
+
+	@Override
+	public int compare(Book book1, Book book2) {
+
+		return 0;
+
+	}
 
 }
