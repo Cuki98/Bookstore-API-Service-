@@ -69,7 +69,7 @@ public class Book implements Comparable<Book>, Comparator<Book> {
     @Column(name = "copies_sold")
     private int copies_sold;
 
-	// E
+	// Es
 	// *New Column to hold the average rating of a book
 	@Column(name = "avgRating")
 	private Double avgRating;

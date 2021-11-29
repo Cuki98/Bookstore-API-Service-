@@ -14,7 +14,7 @@ public interface BookRepository extends CrudRepository<Book, Long>, JpaRepositor
 
     public List<Book> findByAuthorId(Long authorId);
 
-	// *Get Average
+	// *Get Average.
 	@Query(value = "SELECT avg(rating) FROM ratings WHERE isbn = ?", nativeQuery = true)
 	public Double avg(long isbn);
 

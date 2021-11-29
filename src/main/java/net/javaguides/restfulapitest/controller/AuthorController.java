@@ -33,7 +33,7 @@ public class AuthorController {
         return this.authorRepository.findAll();
     }
 
-	// E
+	// Es
 	// *Get authors by name
 	@GetMapping("/authors/name/{authorFirstName}")
 	public Author getAuthorByName(@PathVariable String authorFirstName) {
