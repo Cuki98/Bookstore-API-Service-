@@ -14,4 +14,5 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart,Long>
     ShoppingCart findByUserIdAndBookISBN(Long userId,Long ISBN);
 
 
+
 }
