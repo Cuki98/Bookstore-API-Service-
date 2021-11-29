@@ -5,6 +5,8 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "books")
@@ -34,6 +36,10 @@ public class Book {
     @Column(name = "publisher")
     private String publisher;
 
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    private Set<Rating> ratings = new HashSet<Rating>(0);
+    
+
     public List<WishList> getWishListList() {
         return wishListList;
     }
@@ -51,16 +57,11 @@ public class Book {
     @Column(name = "copies_sold")
     private int copies_sold;
 
-    @Column(name = "rating")
-    private double rating;
-
-
-
     public Book() {
         super();
     }
 
-    public Book(String name, String genre, double price,String publisher,int year_published,String description,int copies_sold, double rating) {
+    public Book(String name, String genre, double price,String publisher,int year_published,String description,int copies_sold) {
         super();
         this.name = name;
         this.genre = genre;
@@ -69,7 +70,6 @@ public class Book {
         this.description = description;
         this.year_published = year_published;
         this.copies_sold = copies_sold;
-        this.rating = rating;
     }
     public long getAuthor() {
         return author.getId();
@@ -141,16 +141,13 @@ public class Book {
         this.copies_sold = copies_sold;
     }
 
-    public double getRating() {
-        return rating;
+    public Set<Rating> getRatings() {
+        return ratings;
     }
-
-
-    public void setRating(double rating) {
-        this.rating = rating;
+    
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
-
-
 
 
 }
