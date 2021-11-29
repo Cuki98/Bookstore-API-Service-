@@ -28,11 +28,12 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userID)
             throws ResourceNotFoundException {
         User user = userRepository.findById(userID)
-                .orElseThrow(() -> new ResourceNotFoundException("Usernot found for this id ::" + userID));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + userID));
 
         return ResponseEntity.ok().body(user);
     }
 
+ 
     //save visitor
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
@@ -47,12 +48,13 @@ public class UserController {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + userID));
 
-        user.setUsername(userDetails.getUsername());
+        //user.setUsername(userDetails.getUsername());
         user.setAddress(userDetails.getAddress());
-        user.setEmail(userDetails.getEmail());
+        //user.setEmail(userDetails.getEmail());
         user.setName(userDetails.getName());
         user.setPassword(userDetails.getPassword());
-
+        user.setUsername(user.getEmail());
+        user.setEmail(user.getEmail());
 
         return ResponseEntity.ok(this.userRepository.save(user));
 
