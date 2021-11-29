@@ -27,6 +27,8 @@ public class BookController {
     public List<Book> getAllBooks()
     {
         return (List<Book>) this.bookRepository.findAll();
+
+
     }
 
     //get book by id
@@ -66,7 +68,6 @@ public class BookController {
         book.setRating(bookDetails.getRating());
         book.setCopies_sold(bookDetails.getCopies_sold());
         book.setYear_published(bookDetails.getYear_published());
-
 
         return ResponseEntity.ok(this.bookRepository.save(book));
     }
