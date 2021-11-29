@@ -1,6 +1,4 @@
 package net.javaguides.restfulapitest.controller;
-
-
 import net.javaguides.restfulapitest.common.ApiResponse;
 import net.javaguides.restfulapitest.exception.ResourceNotFoundException;
 import net.javaguides.restfulapitest.model.Book;
