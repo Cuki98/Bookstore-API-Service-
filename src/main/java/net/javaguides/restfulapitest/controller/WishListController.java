@@ -4,9 +4,11 @@ package net.javaguides.restfulapitest.controller;
 import net.javaguides.restfulapitest.common.ApiResponse;
 import net.javaguides.restfulapitest.exception.ResourceNotFoundException;
 import net.javaguides.restfulapitest.model.Book;
+import net.javaguides.restfulapitest.model.ShoppingCart;
 import net.javaguides.restfulapitest.model.User;
 import net.javaguides.restfulapitest.model.WishList;
 import net.javaguides.restfulapitest.repository.BookRepository;
+import net.javaguides.restfulapitest.repository.ShoppingCartRepository;
 import net.javaguides.restfulapitest.repository.UserRepository;
 import net.javaguides.restfulapitest.repository.WishListRepository;
 import net.javaguides.restfulapitest.service.impl.WishListService;
@@ -33,6 +35,9 @@ public class WishListController {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    ShoppingCartRepository shoppingCartRepository;
+
     //get wishlist by user id
     @GetMapping("/{id}")
     public ResponseEntity<List<WishList>> getWishList(@PathVariable(value = "id")Long id) throws ResourceNotFoundException
@@ -41,7 +46,6 @@ public class WishListController {
         List<WishList> list = new ArrayList<>();
         wishListRepository.findAllByUserId(id).forEach(list::add);
 
-//        WishList wishList = wishListRepository.findById(id).orElseThrow( ()->new ResourceNotFoundException("wishlist not found for this user id:" + id));
         return ResponseEntity.ok().body(list);
 
     }
@@ -52,7 +56,7 @@ public class WishListController {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found for this ID ::" + id));
         WishList wishListIn = new WishList(user, book,user.getWishlist_name());
         wishListService.createWishlist(wishListIn);
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, book.getName() + " added to wishlist."), HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "book added to wishlist."), HttpStatus.OK);
 
     }
     //create wishlist name for user
@@ -66,11 +70,26 @@ public class WishListController {
     }
 
     //delete wishlist item
-    @DeleteMapping("{user_id}/{isbn}")
+    @DeleteMapping("/{user_id}/{isbn}")
     public  ResponseEntity<ApiResponse> deleteWishList(@PathVariable(value = "user_id") Long id, @PathVariable(value="isbn") Long isbn) throws ResourceNotFoundException {
         //
         WishList wishList = wishListRepository.findByUserIdAndBookISBN(id,isbn);
         wishListRepository.delete(wishList);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true,"deleted"), HttpStatus.OK);
+    }
+    //delete from wishlist and add to cart
+    @DeleteMapping("/cart/{user_id}/{isbn}")
+    public  ResponseEntity<ApiResponse> wishListToCart(@PathVariable(value = "user_id") Long id, @PathVariable(value="isbn") Long isbn) throws ResourceNotFoundException
+    {
+        Book book = bookRepository.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("Book not found for this id:" + id));
+        WishList wishList = wishListRepository.findByUserIdAndBookISBN(id,isbn);
+        wishListRepository.delete(wishList);
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found for this ID ::" + id));
+        ShoppingCart shoppingCart = new ShoppingCart(user,book);
+        shoppingCartRepository.save(shoppingCart);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "deleted from wishlist and added to shopping cart"), HttpStatus.OK);
+
+
+
     }
 }

@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface WishListRepository extends JpaRepository<WishList, Long> {
     List<WishList> findAllByUserId(Long userId);
+    //finds wishlist by userid and book id
     WishList findByUserIdAndBookISBN(Long userId,Long ISBN);
 }
