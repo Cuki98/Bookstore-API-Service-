@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,16 +25,22 @@ public class UserController {
         return this.userRepository.findAll();
     }
     //get users by id
+    /*
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userID)
             throws ResourceNotFoundException {
         User user = userRepository.findById(userID)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + userID));
+                .orElseThrow(() -> new ResourceNotFoundException("Usernot found for this id ::" + userID));
 
         return ResponseEntity.ok().body(user);
     }
-
- 
+    */
+    //get user by username
+    @GetMapping("/users/{email}")
+    public User findByusername(@PathVariable String email) {
+        User match = userRepository.findUserByEmail(email);
+        return match;
+    }
     //save visitor
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
@@ -48,14 +55,14 @@ public class UserController {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + userID));
 
-        //user.setUsername(userDetails.getUsername());
+       
         user.setAddress(userDetails.getAddress());
-        //user.setEmail(userDetails.getEmail());
         user.setName(userDetails.getName());
         user.setPassword(userDetails.getPassword());
-        user.setUsername(user.getEmail());
         user.setEmail(user.getEmail());
-
+        user.setUsername(user.getUsername());
+        
+        
         return ResponseEntity.ok(this.userRepository.save(user));
 
     }
